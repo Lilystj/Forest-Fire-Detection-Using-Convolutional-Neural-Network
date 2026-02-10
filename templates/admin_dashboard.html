@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard-header-bar">
+        <div class="header-left">
+            <span class="header-title">Forest Fire Detection</span>
+        </div>
+        <div class="header-right">
+            <div class="profile-dropdown">
+                <button class="profile-btn">
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="24" r="24" fill="#6366f1"/>
+                        <rect x="14" y="14" width="20" height="20" rx="10" fill="#fff"/>
+                        <ellipse cx="24" cy="36" rx="13" ry="7" fill="#fff"/>
+                        <text x="24" y="28" text-anchor="middle" font-size="13" fill="#6366f1" font-family="Arial" font-weight="bold">A</text>
+                    </svg>
+                    <span class="profile-name">{{ username }}</span>
+                </button>
+                <div class="profile-dropdown-content">
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-content">
+        <div class="dashboard-card">
+            <h2>Quick Stats</h2>
+            <div style="display:flex;justify-content:space-around;gap:18px;flex-wrap:wrap;">
+                <div style="background:#f1f5f9;padding:18px 24px;border-radius:12px;min-width:120px;">
+                    <div style="font-size:1.2em;font-weight:700;color:#6366f1;">Users</div>
+                    <div style="font-size:2em;font-weight:700;">{{ user_count or '?' }}</div>
+                </div>
+                <div style="background:#f1f5f9;padding:18px 24px;border-radius:12px;min-width:120px;">
+                    <div style="font-size:1.2em;font-weight:700;color:#60a5fa;">Videos</div>
+                    <div style="font-size:2em;font-weight:700;">{{ video_count or '?' }}</div>
+                </div>
+                <div style="background:#f1f5f9;padding:18px 24px;border-radius:12px;min-width:120px;">
+                    <div style="font-size:1.2em;font-weight:700;color:#fbbf24;">Predictions</div>
+                    <div style="font-size:2em;font-weight:700;">{{ prediction_count or '?' }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-card">
+            <h2>Model Visualizations</h2>
+            <form action="{{ url_for('admin_visualizations') }}" method="get">
+                <input type="submit" value="View Model Visualizations" class="button">
+            </form>
+        </div>
+        <div class="dashboard-card">
+            <h2>All Uploaded Videos</h2>
+            {% if uploaded_files %}
+            <ul style="list-style:none;padding:0;">
+                {% for file in uploaded_files %}
+                <li style="margin-bottom:8px;">{{ file }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No uploads found.</p>
+            {% endif %}
+        </div>
+        <div class="dashboard-card">
+            <h2>All User Predictions</h2>
+            {% if all_history %}
+            <div style="overflow-x:auto;">
+            <table style="width:100%;margin-bottom:12px;">
+                <tr>
+                    <th>User</th>
+                    <th>Video</th>
+                    <th>Prediction</th>
+                    <th>Grad-CAM</th>
+                    <th>Delete</th>
+                </tr>
+                {% for row in all_history %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                    <td><img src="{{ url_for('static', filename='gradcam/' + row[3]) }}" width="60"></td>
+                    <td>
+                        <form method="post" action="{{ url_for('admin_delete_history') }}" style="margin:0;">
+                            <input type="hidden" name="username" value="{{ row[0] }}">
+                            <input type="hidden" name="video_filename" value="{{ row[1] }}">
+                            <input type="hidden" name="label" value="{{ row[2] }}">
+                            <input type="hidden" name="gradcam_filename" value="{{ row[3] }}">
+                            <input type="submit" value="Delete" class="button logout-btn" style="padding:4px 12px;font-size:0.9em;">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+            {% else %}
+            <p>No predictions found.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% if fire_alert %}
+<div id="emergency-alert" style="background:red;color:white;padding:15px;text-align:center;font-size:1.5em;font-weight:bold;animation: blink 1s infinite;">
+    🚨 Emergency! A Fire has been detected! 🚨
+</div>
+<audio autoplay>
+    <source src="{{ url_for('static', filename='alarm.mp3') }}" type="audio/mpeg">
+</audio>
+{% endif %}
+
+<style>
+@keyframes blink {
+  0% { background-color: red; }
+  50% { background-color: darkred; }
+  100% { background-color: red; }
+}
+</style>
+
+</body>
+
+</html>

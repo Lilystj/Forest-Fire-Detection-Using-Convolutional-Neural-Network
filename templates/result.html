@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction Result</h1>
+        <div class="label">Prediction: {{ label }}</div>
+        <div class="video-section">
+            <h2>Uploaded Video</h2>
+            <video width="400" controls>
+                <source src="{{ video_path }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        {% if gradcam_path %}
+        <div class="gradcam-section">
+            <h2>Grad-CAM Overlay (First Frame)</h2>
+            <img src="{{ gradcam_path }}" alt="Grad-CAM Overlay">
+        </div>
+        {% endif %}
+        <a href="{{ url_for('index') }}" class="button">Try Another Video</a>
+        <div class="footer">
+            &copy; 2025 Forest Fire Detection | Powered by Deep Learning
+        </div>
+    </div>
+</body>
+</html>

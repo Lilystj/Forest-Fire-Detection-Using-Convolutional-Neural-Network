@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Accuracy & Loss Graph</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(120deg, #1a1a1a 0%, #e25822 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .graph-container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+            padding: 2.5rem 2rem 2rem 2rem;
+            max-width: 600px;
+            width: 95vw;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        h2 {
+            color: #e25822;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 1px 2px 8px #fff2, 0 1px 0 #0002;
+        }
+        .graph-img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #e2582240;
+            margin-bottom: 1.5rem;
+        }
+        .no-data {
+            color: #b22222;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 0.7em 2.2em;
+            background: linear-gradient(90deg, #e25822 60%, #ffb347 100%);
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px #e2582240;
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .back-btn:hover {
+            background: linear-gradient(90deg, #ffb347 0%, #e25822 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px #e2582260;
+        }
+    </style>
+</head>
+<body>
+    <div class="graph-container">
+        <h2>Model Accuracy &amp; Loss Graph</h2>
+        {% if plot_data %}
+            <img class="graph-img" src="data:image/png;base64,{{ plot_data }}" alt="Accuracy &amp; Loss Graph">
+        {% else %}
+            <div class="no-data">No graph data available.</div>
+        {% endif %}
+        <a href="{{ url_for('user_dashboard') }}" class="back-btn">&#8592; Back to Dashboard</a>
+    </div>
+</body>
+</html>

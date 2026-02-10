@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction History</h1>
+        {% if history %}
+        <table style="width:100%;margin-bottom:24px;">
+            <tr>
+                <th>Video</th>
+                <th>Prediction</th>
+                <th>Grad-CAM</th>
+                <th>Download</th>
+                <th>Delete</th>
+            </tr>
+            {% for row in history %}
+            <tr>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td><img src="{{ url_for('static', filename='gradcam/' + row[3]) }}" width="80"></td>
+                <td><a href="{{ url_for('static', filename='gradcam/' + row[3]) }}" download>Download</a></td>
+                <td>
+                    <form method="post" action="{{ url_for('delete_history') }}" style="margin:0;">
+                        <input type="hidden" name="video_filename" value="{{ row[1] }}">
+                        <input type="hidden" name="label" value="{{ row[2] }}">
+                        <input type="hidden" name="gradcam_filename" value="{{ row[3] }}">
+                        <input type="submit" value="Delete" class="button logout-btn" style="padding:6px 18px;font-size:0.95em;">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No prediction history found.</p>
+        {% endif %}
+        <a href="{{ url_for('user_dashboard') }}" class="button">Back to Dashboard</a>
+    </div>
+</body>
+</html>

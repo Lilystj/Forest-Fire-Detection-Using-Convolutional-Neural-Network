@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Visualizations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .viz-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: rgba(255,255,255,0.97);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px #e2582240;
+            padding: 2.5rem 2rem;
+        }
+        .viz-title {
+            color: #e25822;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .viz-section {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+        .viz-section h3 {
+            color: #2563eb;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .viz-img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #e2582240;
+        }
+        .no-data {
+            color: #b22222;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 0.7em 2.2em;
+            background: linear-gradient(90deg, #e25822 60%, #ffb347 100%);
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px #e2582240;
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, transform 0.2s;
+            margin-top: 1.5rem;
+        }
+        .back-btn:hover {
+            background: linear-gradient(90deg, #ffb347 0%, #e25822 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 4px 16px #e2582260;
+        }
+    </style>
+</head>
+<body>
+    <div class="viz-container">
+        <div class="viz-title">Model Visualizations</div>
+        <div class="viz-section">
+            <h3>Accuracy &amp; Loss Curve</h3>
+            {% if images.accuracy_loss %}
+                <img class="viz-img" src="data:image/png;base64,{{ images.accuracy_loss }}" alt="Accuracy & Loss">
+            {% else %}
+                <div class="no-data">No accuracy/loss graph available.</div>
+            {% endif %}
+        </div>
+        <div class="viz-section">
+            <h3>Confusion Matrix</h3>
+            {% if images.confusion_matrix %}
+                <img class="viz-img" src="data:image/png;base64,{{ images.confusion_matrix }}" alt="Confusion Matrix">
+            {% else %}
+                <div class="no-data">No confusion matrix available.</div>
+            {% endif %}
+        </div>
+        <div class="viz-section">
+            <h3>Feature Map</h3>
+            {% if images.feature_map %}
+                <img class="viz-img" src="data:image/png;base64,{{ images.feature_map }}" alt="Feature Map">
+            {% else %}
+                <div class="no-data">No feature map available.</div>
+            {% endif %}
+        </div>
+        <div class="viz-section">
+            <h3>Saliency Map</h3>
+            {% if images.saliency_map %}
+                <img class="viz-img" src="data:image/png;base64,{{ images.saliency_map }}" alt="Saliency Map">
+            {% else %}
+                <div class="no-data">No saliency map available.</div>
+            {% endif %}
+        </div>
+        <div class="viz-section">
+            <h3>t-SNE Visualization</h3>
+            {% if images.tsne %}
+                <img class="viz-img" src="data:image/png;base64,{{ images.tsne }}" alt="t-SNE">
+            {% else %}
+                <div class="no-data">No t-SNE visualization available.</div>
+            {% endif %}
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <a href="{{ url_for('admin_dashboard') }}" class="back-btn">&#8592; Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+    <style>
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .profile-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+            color: #fff;
+        }
+        .profile-name {
+            margin-left: 0.5rem;
+            color: #fff;
+            font-weight: 500;
+        }
+        .profile-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #fff;
+            min-width: 120px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .profile-dropdown-content a {
+            color: #e25822;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            display: block;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+        .profile-dropdown-content a:hover {
+            background: #ffe5d0;
+        }
+        .profile-dropdown:hover .profile-dropdown-content {
+            display: block;
+        }
+    </style>
+<body style="min-height:100vh;display:flex;flex-direction:column;">
+    <div class="dashboard-header-bar">
+        <div class="header-left">
+            <span class="header-title">User Dashboard</span>
+        </div>
+        <div class="header-right">
+            <div class="profile-dropdown">
+                <button class="profile-btn" tabindex="0">
+                    <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="24" r="24" fill="#6366f1"/>
+                        <circle cx="24" cy="20" r="9" fill="#fff"/>
+                        <ellipse cx="24" cy="36" rx="13" ry="7" fill="#fff"/>
+                    </svg>
+                    <span class="profile-name">{{ username }}</span>
+                </button>
+                <div class="profile-dropdown-content">
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard-content" style="flex:1;">
+        <div class="dashboard-card upload-card">
+            <h2>Upload Video & Predict</h2>
+            <form method="post" action="{{ url_for('predict') }}" enctype="multipart/form-data">
+                <input type="file" name="video" accept="video/mp4" required>
+                <input type="submit" value="Upload & Predict" class="button">
+            </form>
+        </div>
+        <div class="dashboard-card history-card">
+            <h2>Prediction History</h2>
+            <a href="{{ url_for('user_history') }}" class="button history-btn">View History</a>
+        </div>
+        <div class="dashboard-card graph-card">
+            <h2>Model Training Performance</h2>
+            <form action="{{ url_for('show_graph') }}" method="get">
+                <input type="submit" value="View Accuracy & Loss Graph" class="button">
+            </form>
+        </div>
+    </div>
+</body>
+<footer style="width:100%;background:linear-gradient(90deg,#e25822 60%,#ffb347 100%);color:#fff;text-align:center;padding:1.2rem 0;font-size:1.1rem;letter-spacing:0.5px;">
+    &copy; {{ 2025 }} Forest Fire Detection Dashboard &mdash; Powered by AI
+</footer>
+</html>

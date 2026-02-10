@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preview & Predict</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Preview Frame</h1>
+        {% if chart_path %}
+            <img src="{{ chart_path }}" alt="First Frame" style="max-width:100%;border-radius:12px;box-shadow:0 2px 12px rgba(60,72,100,0.10);margin-bottom:18px;">
+        {% else %}
+            <p>No frame could be extracted from the video.</p>
+        {% endif %}
+        <form method="post" action="{{ url_for('predict') }}">
+            <input type="hidden" name="video_filename" value="{{ video_filename }}">
+            <input type="submit" value="Predict" class="button">
+        </form>
+        <div class="footer">
+            &copy; 2025 Forest Fire Detection | Powered by Deep Learning
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forest Fire Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1><span class="fire-emoji">🔥</span> Forest Fire Detection</h1>
+        <p>Upload a video (mp4) to preview a frame before prediction.</p>
+        <form method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+            <input type="file" name="video" accept="video/mp4" required>
+            <br>
+            <input type="submit" value="Upload">
+        </form>
+        <div class="footer">
+            &copy; 2025 Forest Fire Detection | Powered by Deep Learning
+        </div>
+    </div>
+</body>
+</html>
